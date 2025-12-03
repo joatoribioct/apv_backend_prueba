@@ -17,9 +17,14 @@ app.use(express.urlencoded({ extended: true }));
 // Conectar a la BD
 conectarDB();
 
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://administrador-pacientes-joa.netlify.app"
+];
+
 const corsOptions = {
     origin: function(origin, callback) {
-        if(!origin || origin === 'http://localhost:5173') {
+        if(!origin || allowedOrigins.includes(origin)) {
             callback(null, true)
         } else {
             callback(new Error('No Permitido por CORS'))
@@ -27,6 +32,7 @@ const corsOptions = {
     }
 }
 app.use(cors(corsOptions))
+app.options("*", cors(corsOptions))
 
 // Rutas
 app.use("/api/veterinarios", veterinarioRoutes)
