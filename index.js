@@ -32,7 +32,11 @@ const corsOptions = {
     }
 }
 app.use(cors(corsOptions))
-app.options("*", cors(corsOptions))
+
+// Manejo correcto del preflight (Express 5 / Render)
+app.options("/", cors(corsOptions));
+app.options("/api/*", cors(corsOptions));
+
 
 // Rutas
 app.use("/api/veterinarios", veterinarioRoutes)
